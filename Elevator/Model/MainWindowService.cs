@@ -33,6 +33,7 @@ namespace Elevator.Model
                 Thread myThread = new Thread(new ParameterizedThreadStart(PassengerThread));
                 myThread.Start(Passengers[i]);
             }
+            Thread.Sleep(4050);
             Thread myThread2 = new Thread(new ParameterizedThreadStart(ElevatorThread));
             myThread2.Start(Elevator);
         }
@@ -40,7 +41,7 @@ namespace Elevator.Model
         public void AddAPassenger(int NumberOfTheFloor)
         {            
             Passenger passenger = new Passenger(_numberOfFloors, NumberOfTheFloor);
-            this.Passengers.Add(passenger);
+            Passengers.Add(passenger);
             if (IsSimulationStarted == true)
             {
                 Thread myThread = new Thread(new ParameterizedThreadStart(PassengerThread));
@@ -53,7 +54,7 @@ namespace Elevator.Model
         public event Action<int> ElevatorMoved;
         public event Action OverWeight;
         public event Action<int> PassengerEnterElevator;
-
+        public event Action<int> PassengerOutFromElevator;
         public void PassengerThread(object pas)
         {
             Thread.Sleep(4000);
@@ -76,19 +77,23 @@ namespace Elevator.Model
                             InnerActiveFloorButtonActivated?.Invoke(passenger.WantedFloor);
                         }
                         passenger.Status = PassengerStatus.IsInElevator;
+                        Console.WriteLine("est");
                         PassengerEnterElevator?.Invoke(passenger.CurrentFloor);
                     }
-                    else
-                    {
-                        OverWeight?.Invoke();
-                    }
                 }
+                if (passenger.Status == PassengerStatus.IsInElevator && Elevator.CurrentFloor == passenger.WantedFloor)
+                {
+                    passenger.Status = PassengerStatus.CameOutFromElevator;
+                    PassengerOutFromElevator?.Invoke(Elevator.CurrentFloor);
+                    break;
+                }
+                Thread.Sleep(50);
             }
+            Console.WriteLine("Thread Finished");
         }
 
         public void ElevatorThread(object elev)
         {
-            Thread.Sleep(4050);
             Elevator elevator = (Elevator)elev;
             while (this.IsSimulationStarted == true)
             {
@@ -116,7 +121,8 @@ namespace Elevator.Model
                     elevator.OuterActiveFloorButtons[0] = false;
                     elev = elevator;
                     ElevatorMoved?.Invoke(1);
-                }                
+                }
+                Thread.Sleep(50);
             }
         }
     }    

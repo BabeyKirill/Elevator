@@ -18,5 +18,6 @@ namespace Elevator.Model
         event Action<int> ElevatorMoved;
         event Action<int> PassengerEnterElevator;
         event Action<int> InnerActiveFloorButtonActivated;
+        event Action<int> PassengerOutFromElevator;
     }
 }

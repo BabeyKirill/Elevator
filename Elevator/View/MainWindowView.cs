@@ -15,6 +15,7 @@ namespace Elevator.View
     {
         double time = 0;
         int NumberOfFloors;
+        private int NumberOfPassengersInElevator;
         private readonly ApplicationContext _context;
         Button[] AddButtons;
         FlowLayoutPanel[] AwaitingPeopleContainer;
@@ -26,6 +27,7 @@ namespace Elevator.View
         {
             _context = context;
             InitializeComponent();
+            NumberOfPassengersInElevator = 0;
         }
 
         public void SetNumberOfFloors(int n)
@@ -83,12 +85,36 @@ namespace Elevator.View
         public event Action StartSimulation;
         public event Action StopSimulation;
 
+        public void MovePassengerFromElevator(int NumberOfTheFloor)
+        {
+            /*
+            PictureBox ManPicture = new PictureBox();
+            ExitedPeopleContainer[NumberOfTheFloor - 1].Controls.Add(ManPicture);
+            ManPicture.BackgroundImage = global::Elevator.Properties.Resources.Man;
+            ManPicture.BackgroundImageLayout = ImageLayout.Zoom;
+            ManPicture.Size = new Size(16, 20);
+            ManPicture.TabIndex = 1;
+            ManPicture.TabStop = false;
+            
+            NumberOfPassengersInElevator--;
+            if (NumberOfPassengersInElevator == 0)
+            {
+                //pictureBox1.Visible = false;
+            }
+            */
+        }
+
         public void MovePassengerInElevator(int NumberOfTheFloor)
         {
+            Console.WriteLine("est2");
             if (AwaitingPeopleContainer[NumberOfTheFloor - 1].Controls.Count > 0)
             {
+                Console.WriteLine(NumberOfTheFloor);
+                Console.WriteLine(AwaitingPeopleContainer[NumberOfTheFloor - 1].Controls.Count);
                 AwaitingPeopleContainer[NumberOfTheFloor - 1].Controls.RemoveAt(AwaitingPeopleContainer[NumberOfTheFloor - 1].Controls.Count - 1);
-                Console.WriteLine("Srabotalo");
+                Console.WriteLine("est4");
+                NumberOfPassengersInElevator++;
+                //pictureBox1.Visible = true;
             }
         }
 

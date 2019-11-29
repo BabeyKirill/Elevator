@@ -26,7 +26,14 @@ namespace Elevator.Presenter
             _service.ElevatorMoved += ElevatorMoved;
             _service.InnerActiveFloorButtonActivated += InnerActiveFloorButtonActivated;
             _service.PassengerEnterElevator += PassengerEnterElevator;
+            _service.PassengerOutFromElevator += PassengerOutFromElevator;
         }
+
+        private void PassengerOutFromElevator(int NumberOfTheFloor)
+        {
+            _view.MovePassengerFromElevator(NumberOfTheFloor);
+        }
+
         private void PassengerEnterElevator(int NumberOfTheFloor)
         {
             _view.MovePassengerInElevator(NumberOfTheFloor);

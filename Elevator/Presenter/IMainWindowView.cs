@@ -14,6 +14,7 @@ namespace Elevator.Presenter
         void ActivateInnerActiveFloorCheckBox(int NumberOfTheFloor);
         void MoveElevator(int ElevatorNewFloor);
         void MovePassengerInElevator(int NumberOfTheFloor);
+        void MovePassengerFromElevator(int NumberOfTheFloor);
         event Action SetUp;
         event Action<int> AddButtonClicked;
         event Action StartSimulation;
