@@ -8,6 +8,15 @@ namespace Elevator.Model
 {
     interface IMainWindowService
     {
-        decimal NumberOfFloors { get; set; }
+        bool IsSimulationStarted { get; set; }
+        int NumberOfFloors { get; set; }
+        Elevator Elevator { get; set; }
+        List<Passenger> Passengers { get; set; }
+        void AddAPassenger(int NumberOfTheFloor);
+        void StartSimulation();
+        event Action<int> OuterActiveFloorButtonActivated;
+        event Action<int> ElevatorMoved;
+        event Action<int> PassengerEnterElevator;
+        event Action<int> InnerActiveFloorButtonActivated;
     }
 }

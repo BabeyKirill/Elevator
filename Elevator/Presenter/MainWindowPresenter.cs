@@ -19,8 +19,42 @@ namespace Elevator.Presenter
             _kernel = kernel;
             _view = view;
             _service = service;
-
+            _view.AddButtonClicked += AddButtonClicked;
             _view.SetUp += SetUp;
+            _service.OuterActiveFloorButtonActivated += OuterActiveFloorButtonActivated;
+            _view.StartSimulation += StartSimulation;
+            _service.ElevatorMoved += ElevatorMoved;
+            _service.InnerActiveFloorButtonActivated += InnerActiveFloorButtonActivated;
+            _service.PassengerEnterElevator += PassengerEnterElevator;
+        }
+        private void PassengerEnterElevator(int NumberOfTheFloor)
+        {
+            _view.MovePassengerInElevator(NumberOfTheFloor);
+        }
+
+        private void InnerActiveFloorButtonActivated(int NumberOfTheFloor)
+        {
+            _view.ActivateInnerActiveFloorCheckBox(NumberOfTheFloor);
+        }
+
+        private void ElevatorMoved(int ElevatorNewFloor)
+        {
+            _view.MoveElevator(ElevatorNewFloor);
+        }
+
+        private void StartSimulation()
+        {
+            _service.StartSimulation();
+        }
+
+        private void OuterActiveFloorButtonActivated(int NumberOfTheFloor)
+        {
+            _view.ActivateOuterActiveFloorCheckBox(NumberOfTheFloor);
+        }
+        private void AddButtonClicked(int NumberOfTheFloor)
+        {
+            _view.AddAPassenger(NumberOfTheFloor);           
+            _service.AddAPassenger(NumberOfTheFloor);            
         }
 
         private void SetUp()

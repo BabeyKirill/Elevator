@@ -8,7 +8,7 @@ namespace Elevator.Presenter
 {
     interface ISetUpView : IView
     {
-        decimal NumberOfFloors { get; }
+        int NumberOfFloors { get; }
         event Action SetUp;
     }
 }

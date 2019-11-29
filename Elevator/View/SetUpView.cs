@@ -21,7 +21,7 @@ namespace Elevator.View
             InitializeComponent();
         }
 
-        public decimal NumberOfFloors => numericUpDown1.Value;
+        public int NumberOfFloors => (int)numericUpDown1.Value;
 
         public event Action SetUp;
 

@@ -22,7 +22,7 @@ namespace Elevator.Presenter
             _view.SetUp += () => SetUp(_view.NumberOfFloors);
         }
 
-        private void SetUp(decimal numberOfFloors)
+        private void SetUp(int numberOfFloors)
         {
             _service.NumberOfFloors = numberOfFloors;
             _kernel.Get<MainWindowPresenter>().Run();

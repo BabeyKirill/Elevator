@@ -52,8 +52,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\Elevator.cs" />
     <Compile Include="Model\IMainWindowService.cs" />
     <Compile Include="Model\MainWindowService.cs" />
+    <Compile Include="Model\Passenger.cs" />
     <Compile Include="Presenter\IMainWindowView.cs" />
     <Compile Include="Presenter\IPresenter.cs" />
     <Compile Include="Presenter\ISetUpView.cs" />
