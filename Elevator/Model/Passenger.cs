@@ -4,16 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-enum PassengerStatus
+public enum PassengerStatus
 {
     WaitingForElevator,
     IsInElevator,
-    CameOutFromElevator
+    OutFromElevator
 }
 
 namespace Elevator.Model
 {
-    class Passenger
+    public class Passenger
     {
         public int WantedFloor { get; set; }
         public int CurrentFloor { get; set; }

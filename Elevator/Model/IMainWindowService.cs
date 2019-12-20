@@ -12,12 +12,21 @@ namespace Elevator.Model
         int NumberOfFloors { get; set; }
         Elevator Elevator { get; set; }
         List<Passenger> Passengers { get; set; }
+        void TimerStart();
+        void TimerStop();
         void AddAPassenger(int NumberOfTheFloor);
-        void StartSimulation();
         event Action<int> OuterActiveFloorButtonActivated;
         event Action<int> ElevatorMoved;
         event Action<int> PassengerEnterElevator;
         event Action<int> InnerActiveFloorButtonActivated;
         event Action<int> PassengerOutFromElevator;
+        event Action<int> PassengerDisappeared;
+        event Action<int> TotalMovedMassIncreased;
+        event Action ElevatorMadeRide;
+        event Action ElevatorMadeIddleRide;
+        event Action<double> TimeUpdated;
+        event Action OverWeightActivated;
+        event Action OverWeightDeactivated;
+        event Action<List<Passenger>> PassengersInfoUpdated;
     }
 }

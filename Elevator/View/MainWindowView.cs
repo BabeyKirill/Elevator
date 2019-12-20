@@ -13,8 +13,11 @@ namespace Elevator.View
 {
     public partial class MainWindowView : Form, IMainWindowView
     {
-        double time = 0;
         int NumberOfFloors;
+        int NumberOfCreatedPeople;
+        int MovedMass;
+        int Rides;
+        int IddleRides;
         private int NumberOfPassengersInElevator;
         private readonly ApplicationContext _context;
         Button[] AddButtons;
@@ -22,12 +25,17 @@ namespace Elevator.View
         FlowLayoutPanel[] ExitedPeopleContainer;
         CheckBox[] OuterActiveFloorButtons;
         CheckBox[] InnerActiveFloorButtons;
+        Form f;
 
         public MainWindowView(ApplicationContext context)
         {
             _context = context;
             InitializeComponent();
             NumberOfPassengersInElevator = 0;
+            NumberOfCreatedPeople = 0;
+            MovedMass = 0;
+            Rides = 0;
+            IddleRides = 0;
         }
 
         public void SetNumberOfFloors(int n)
@@ -84,10 +92,18 @@ namespace Elevator.View
         public event Action<int> AddButtonClicked;
         public event Action StartSimulation;
         public event Action StopSimulation;
+        public event Action<PassengersInfoView> PassengersInfoShown;
+
+        public void DeletePassenger(int NumberOfTheFloor)
+        {
+            if (ExitedPeopleContainer[NumberOfTheFloor - 1].Controls.Count > 0)
+            {
+                ExitedPeopleContainer[NumberOfTheFloor - 1].Controls.RemoveAt(ExitedPeopleContainer[NumberOfTheFloor - 1].Controls.Count - 1);
+            }
+        }
 
         public void MovePassengerFromElevator(int NumberOfTheFloor)
         {
-            /*
             PictureBox ManPicture = new PictureBox();
             ExitedPeopleContainer[NumberOfTheFloor - 1].Controls.Add(ManPicture);
             ManPicture.BackgroundImage = global::Elevator.Properties.Resources.Man;
@@ -99,22 +115,17 @@ namespace Elevator.View
             NumberOfPassengersInElevator--;
             if (NumberOfPassengersInElevator == 0)
             {
-                //pictureBox1.Visible = false;
+                pictureBox1.Visible = false;
             }
-            */
         }
 
         public void MovePassengerInElevator(int NumberOfTheFloor)
         {
-            Console.WriteLine("est2");
             if (AwaitingPeopleContainer[NumberOfTheFloor - 1].Controls.Count > 0)
             {
-                Console.WriteLine(NumberOfTheFloor);
-                Console.WriteLine(AwaitingPeopleContainer[NumberOfTheFloor - 1].Controls.Count);
                 AwaitingPeopleContainer[NumberOfTheFloor - 1].Controls.RemoveAt(AwaitingPeopleContainer[NumberOfTheFloor - 1].Controls.Count - 1);
-                Console.WriteLine("est4");
                 NumberOfPassengersInElevator++;
-                //pictureBox1.Visible = true;
+                pictureBox1.Visible = true;
             }
         }
 
@@ -133,7 +144,6 @@ namespace Elevator.View
         public void ActivateOuterActiveFloorCheckBox(int NumberOfTheFloor)
         {
             this.OuterActiveFloorButtons[NumberOfTheFloor - 1].Checked = true;
-
         }
 
         private void AddButton_Click(object sender, EventArgs e)
@@ -153,6 +163,8 @@ namespace Elevator.View
             ManPicture.Size = new Size(16, 20);
             ManPicture.TabIndex = 1;
             ManPicture.TabStop = false;
+            NumberOfCreatedPeople++;
+            label4.Text = $"Passengers count = {NumberOfCreatedPeople}";
         }
 
         public void SetActiveFloor(int floor)
@@ -167,8 +179,7 @@ namespace Elevator.View
         
         //Start simulation button
         private void button2_Click(object sender, EventArgs e)
-        {
-            this.timer1.Start();           
+        {          
             this.button3.Enabled = true;
             this.button2.Enabled = false;
             StartSimulation?.Invoke();
@@ -177,24 +188,94 @@ namespace Elevator.View
         //Stop simulation button
         private void button3_Click(object sender, EventArgs e)
         {
-            this.timer1.Stop();
-            time = 0;
-            this.toolStripStatusLabel1.Text = $"time: {time}";
+            this.toolStripStatusLabel1.Text = $"time: {0}";
+            foreach (FlowLayoutPanel pan in AwaitingPeopleContainer)
+            {
+                pan.Controls.Clear();
+            }
+            foreach (FlowLayoutPanel pan in ExitedPeopleContainer)
+            {
+                pan.Controls.Clear();
+            }
+            foreach (CheckBox chb in OuterActiveFloorButtons)
+            {
+                chb.Checked = false;
+            }
+            foreach (CheckBox chb in InnerActiveFloorButtons)
+            {
+                chb.Checked = false;
+            }
+            panel3.Location = new Point(155, 10 + 25 * (NumberOfFloors - 1));
             this.button2.Enabled = true;
             this.button3.Enabled = false;
+            pictureBox1.Visible = false;
+            radioButton1.Checked = false;
+            NumberOfPassengersInElevator = 0;
+            Rides = 0;
+            IddleRides = 0;
+            MovedMass = 0;
+            NumberOfCreatedPeople = 0;
+            label1.Text = "Rides = 0";
+            label2.Text = "Iddle rides = 0";
+            label3.Text = "Transported mass = 0";
+            label4.Text = "Passengers count = 0";
             StopSimulation?.Invoke();
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        public void UpdateMovedMass(int MassIncrease)
         {
-            time++;
-            this.toolStripStatusLabel1.Text = $"time: {time}";
+            MovedMass = MovedMass + MassIncrease;
+            this.label3.Text = $"Transported mass = {MovedMass}";
+        }
+
+        public void IncreaseRides()
+        {
+            this.Rides++;
+            this.label1.Text = $"Rides = {Rides}";
+        }
+
+        public void IncreaseIddleRides()
+        {
+            this.IddleRides++;
+            this.label2.Text = $"Iddle rides = {IddleRides}";
+        }
+
+        public void ActivateOverWeight()
+        {
+            this.radioButton1.Checked = true;
+        }
+
+        public void DeactivateOverWeight()
+        {
+            this.radioButton1.Checked = false;
+        }
+
+        public void UpdateTime(double NewTime)
+        {
+            this.toolStripStatusLabel1.Text = $"time: {NewTime}";
         }
 
         public new void Show()
         {
             _context.MainForm = this;
             base.Show();
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        //View passengers info
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (f != null)
+            {
+                f.Close();
+            }
+            f = new PassengersInfoView();           
+            f.Show();
+            PassengersInfoShown?.Invoke((PassengersInfoView)f);
         }
     }
 }

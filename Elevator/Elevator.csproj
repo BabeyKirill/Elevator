@@ -54,9 +54,11 @@
   <ItemGroup>
     <Compile Include="Model\Elevator.cs" />
     <Compile Include="Model\IMainWindowService.cs" />
+    <Compile Include="Model\ITimer.cs" />
     <Compile Include="Model\MainWindowService.cs" />
     <Compile Include="Model\Passenger.cs" />
     <Compile Include="Presenter\IMainWindowView.cs" />
+    <Compile Include="Presenter\IPassengersInfoView.cs" />
     <Compile Include="Presenter\IPresenter.cs" />
     <Compile Include="Presenter\ISetUpView.cs" />
     <Compile Include="Presenter\IView.cs" />
@@ -67,6 +69,12 @@
     </Compile>
     <Compile Include="View\MainWindowView.Designer.cs">
       <DependentUpon>MainWindowView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\PassengersInfoView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\PassengersInfoView.Designer.cs">
+      <DependentUpon>PassengersInfoView.cs</DependentUpon>
     </Compile>
     <Compile Include="View\SetUpView.cs">
       <SubType>Form</SubType>
@@ -88,6 +96,9 @@
     </Compile>
     <EmbeddedResource Include="View\MainWindowView.resx">
       <DependentUpon>MainWindowView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\PassengersInfoView.resx">
+      <DependentUpon>PassengersInfoView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\SetUpView.resx">
       <DependentUpon>SetUpView.cs</DependentUpon>
