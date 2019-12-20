@@ -14,7 +14,7 @@ namespace Elevator.Presenter
         private readonly IKernel _kernel;
         private readonly IMainWindowView _view;
         private readonly IMainWindowService _service;
-        private IPassengersInfoView _info;
+        private PassengersInfoPresenter _pasInfo;
         public MainWindowPresenter(IKernel kernel, IMainWindowView view, IMainWindowService service)
         {
             _kernel = kernel;
@@ -37,20 +37,21 @@ namespace Elevator.Presenter
             _service.OverWeightActivated += OverWeightActivated;
             _service.OverWeightDeactivated += OverWeightDeactivated;
             _view.PassengersInfoShown += PassengersInfoShown;
-            _service.PassengersInfoUpdated += PassengersInfoUpdated;
-        }
-        void PassengersInfoUpdated(List<Passenger> Passengers)
-        {
-            if (this._info != null)
-            {
-                _info.ViewPassengersInfo(Passengers);
-            }
         }
 
-        void PassengersInfoShown(PassengersInfoView PasInfo)
+        void PassengersInfoShown()
         {
-            this._info = PasInfo;
-            _info.ViewPassengersInfo(_service.Passengers);
+            if (_pasInfo == null)
+            {
+                _pasInfo = _kernel.Get<PassengersInfoPresenter>();
+                _pasInfo.Run();
+            }
+            else
+            {
+                _pasInfo.Close();
+                _pasInfo = _kernel.Get<PassengersInfoPresenter>();
+                _pasInfo.Run();
+            }      
         }
 
         public void OverWeightActivated()

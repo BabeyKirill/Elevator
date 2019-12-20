@@ -27,6 +27,6 @@ namespace Elevator.Presenter
         event Action<int> AddButtonClicked;
         event Action StartSimulation;
         event Action StopSimulation;
-        event Action<PassengersInfoView> PassengersInfoShown;
+        event Action PassengersInfoShown;
     }
 }

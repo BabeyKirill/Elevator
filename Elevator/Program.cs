@@ -33,8 +33,10 @@ namespace Elevator
                 kernel.Bind<ApplicationContext>().ToConstant(new ApplicationContext());
                 kernel.Bind<ISetUpView>().To<SetUpView>();
                 kernel.Bind<IMainWindowView>().To<MainWindowView>();
+                kernel.Bind<IPassengersInfoView>().To<PassengersInfoView>();
                 kernel.Bind<SetUpPresenter>().ToSelf();
                 kernel.Bind<MainWindowPresenter>().ToSelf();
+                kernel.Bind<PassengersInfoPresenter>().ToSelf();
                 kernel.Bind<IMainWindowService>().To<MainWindowService>().InSingletonScope();
 
                 Application.EnableVisualStyles();

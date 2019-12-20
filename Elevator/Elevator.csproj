@@ -63,6 +63,7 @@
     <Compile Include="Presenter\ISetUpView.cs" />
     <Compile Include="Presenter\IView.cs" />
     <Compile Include="Presenter\MainWindowPresenter.cs" />
+    <Compile Include="Presenter\PassengersInfoPresenter.cs" />
     <Compile Include="Presenter\SetUpPresenter.cs" />
     <Compile Include="View\MainWindowView.cs">
       <SubType>Form</SubType>

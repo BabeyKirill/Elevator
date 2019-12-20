@@ -25,7 +25,6 @@ namespace Elevator.View
         FlowLayoutPanel[] ExitedPeopleContainer;
         CheckBox[] OuterActiveFloorButtons;
         CheckBox[] InnerActiveFloorButtons;
-        Form f;
 
         public MainWindowView(ApplicationContext context)
         {
@@ -92,7 +91,7 @@ namespace Elevator.View
         public event Action<int> AddButtonClicked;
         public event Action StartSimulation;
         public event Action StopSimulation;
-        public event Action<PassengersInfoView> PassengersInfoShown;
+        public event Action PassengersInfoShown;
 
         public void DeletePassenger(int NumberOfTheFloor)
         {
@@ -269,13 +268,7 @@ namespace Elevator.View
         //View passengers info
         private void button4_Click(object sender, EventArgs e)
         {
-            if (f != null)
-            {
-                f.Close();
-            }
-            f = new PassengersInfoView();           
-            f.Show();
-            PassengersInfoShown?.Invoke((PassengersInfoView)f);
+            PassengersInfoShown?.Invoke();
         }
     }
 }

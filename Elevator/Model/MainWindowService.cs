@@ -229,6 +229,7 @@ namespace Elevator.Model
                                 if (passenger.Status == PassengerStatus.IsInElevator)
                                 {
                                     passenger.CurrentFloor = Elevator.CurrentFloor;
+                                    PassengersInfoUpdated?.Invoke(this.Passengers);
                                 }
                             }
                             NeedTurn = false;
@@ -252,6 +253,7 @@ namespace Elevator.Model
                                     if (passenger.Status == PassengerStatus.IsInElevator)
                                     {
                                         passenger.CurrentFloor = Elevator.CurrentFloor;
+                                        PassengersInfoUpdated?.Invoke(this.Passengers);
                                     }
                                 }
                                 ElevatorMoved?.Invoke(i);
@@ -275,6 +277,7 @@ namespace Elevator.Model
                                 if (passenger.Status == PassengerStatus.IsInElevator)
                                 {
                                     passenger.CurrentFloor = Elevator.CurrentFloor;
+                                    PassengersInfoUpdated?.Invoke(this.Passengers);
                                 }
                             }
                             NeedTurn = false;
@@ -298,6 +301,7 @@ namespace Elevator.Model
                                     if (passenger.Status == PassengerStatus.IsInElevator)
                                     {
                                         passenger.CurrentFloor = Elevator.CurrentFloor;
+                                        PassengersInfoUpdated?.Invoke(this.Passengers);
                                     }
                                 }
                                 NeedTurn = false;
@@ -313,7 +317,8 @@ namespace Elevator.Model
         public void AddAPassenger(int NumberOfTheFloor)
         {            
             Passenger passenger = new Passenger(_numberOfFloors, NumberOfTheFloor);
-            Passengers.Add(passenger);           
+            Passengers.Add(passenger);
+            PassengersInfoUpdated?.Invoke(this.Passengers);
         }        
     }    
 }
