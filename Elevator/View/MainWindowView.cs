@@ -109,6 +109,7 @@ namespace Elevator.View
             if (NumberOfPassengersInElevator == 0)
             {
                 pictureBox1.Visible = false;
+                this.button3.Enabled = true;
             }
         }
 
@@ -119,6 +120,7 @@ namespace Elevator.View
                 AwaitingPeopleContainer[NumberOfTheFloor - 1].Controls.RemoveAt(AwaitingPeopleContainer[NumberOfTheFloor - 1].Controls.Count - 1);
                 NumberOfPassengersInElevator++;
                 pictureBox1.Visible = true;
+                this.button3.Enabled = false;
             }
         }
 
@@ -170,13 +172,27 @@ namespace Elevator.View
         {          
             this.button3.Enabled = true;
             this.button2.Enabled = false;
+            this.toolStripStatusLabel1.Text = $"time: {0}";
+            pictureBox1.Visible = false;
+            radioButton1.Checked = false;
+            NumberOfPassengersInElevator = 0;          
+            label1.Text = "Rides = 0";
+            label2.Text = "Iddle rides = 0";
+            label3.Text = "Transported mass = 0";
+            label4.Text = $"Passengers count = {NumberOfCreatedPeople}";
             StartSimulation?.Invoke();
         }
 
         //Stop simulation button
         private void button3_Click(object sender, EventArgs e)
         {
-            this.toolStripStatusLabel1.Text = $"time: {0}";
+            
+            this.button2.Enabled = true;
+            this.button3.Enabled = false;
+            Rides = 0;
+            IddleRides = 0;
+            MovedMass = 0;
+            NumberOfCreatedPeople = 0;
             foreach (FlowLayoutPanel pan in AwaitingPeopleContainer)
             {
                 pan.Controls.Clear();
@@ -194,19 +210,6 @@ namespace Elevator.View
                 chb.Checked = false;
             }
             panel3.Location = new Point(155, 10 + 25 * (NumberOfFloors - 1));
-            this.button2.Enabled = true;
-            this.button3.Enabled = false;
-            pictureBox1.Visible = false;
-            radioButton1.Checked = false;
-            NumberOfPassengersInElevator = 0;
-            Rides = 0;
-            IddleRides = 0;
-            MovedMass = 0;
-            NumberOfCreatedPeople = 0;
-            label1.Text = "Rides = 0";
-            label2.Text = "Iddle rides = 0";
-            label3.Text = "Transported mass = 0";
-            label4.Text = "Passengers count = 0";
             StopSimulation?.Invoke();
         }
 

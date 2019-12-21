@@ -50,7 +50,7 @@ namespace Elevator.Model
         }
 
         public void TimerStart()
-        {
+        {    
             this.time = 0;
             this.ElevatorTime = 2;
             this.PassengersTime = 0;
@@ -59,7 +59,6 @@ namespace Elevator.Model
 
         public void TimerStop()
         {
-            this._timer.Stop();
             this.Passengers.Clear();
             for (int i = 0; i < NumberOfFloors; i++)
             {
@@ -69,6 +68,7 @@ namespace Elevator.Model
             this.Elevator.CurrentFloor = 1;
             this.Elevator.MoveDirection = ElevatorMoveDirection.Undefined;
             PassengersInfoUpdated?.Invoke(this.Passengers);
+            this._timer.Stop();
         }
 
         private void TimerTick(object sender, EventArgs e)
