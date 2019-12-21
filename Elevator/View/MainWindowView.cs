@@ -1,30 +1,30 @@
 ﻿using Elevator.Presenter;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Elevator.View
 {
     public partial class MainWindowView : Form, IMainWindowView
     {
-        int NumberOfFloors;
-        int NumberOfCreatedPeople;
-        int MovedMass;
-        int Rides;
-        int IddleRides;
+        private int NumberOfFloors;
+        private int NumberOfCreatedPeople;
+        private int MovedMass;
+        private int Rides;
+        private int IddleRides;
         private int NumberOfPassengersInElevator;
         private readonly ApplicationContext _context;
-        Button[] AddButtons;
-        FlowLayoutPanel[] AwaitingPeopleContainer;
-        FlowLayoutPanel[] ExitedPeopleContainer;
-        CheckBox[] OuterActiveFloorButtons;
-        CheckBox[] InnerActiveFloorButtons;
+        private Button[] AddButtons;
+        private FlowLayoutPanel[] AwaitingPeopleContainer;
+        private FlowLayoutPanel[] ExitedPeopleContainer;
+        private CheckBox[] OuterActiveFloorButtons;
+        private CheckBox[] InnerActiveFloorButtons;
+
+        public event Action SetUp;
+        public event Action<int> AddButtonClicked;
+        public event Action StartSimulation;
+        public event Action StopSimulation;
+        public event Action PassengersInfoShown;
 
         public MainWindowView(ApplicationContext context)
         {
@@ -86,12 +86,6 @@ namespace Elevator.View
                 this.panel2.Controls.Add(AddButtons[i]);
             }
         }
-
-        public event Action SetUp;
-        public event Action<int> AddButtonClicked;
-        public event Action StartSimulation;
-        public event Action StopSimulation;
-        public event Action PassengersInfoShown;
 
         public void DeletePassenger(int NumberOfTheFloor)
         {
@@ -164,11 +158,6 @@ namespace Elevator.View
             ManPicture.TabStop = false;
             NumberOfCreatedPeople++;
             label4.Text = $"Passengers count = {NumberOfCreatedPeople}";
-        }
-
-        public void SetActiveFloor(int floor)
-        {
-            panel3.Location = new Point(155, 10 + 25 * (NumberOfFloors - floor));
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -258,11 +247,6 @@ namespace Elevator.View
         {
             _context.MainForm = this;
             base.Show();
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-
         }
 
         //View passengers info

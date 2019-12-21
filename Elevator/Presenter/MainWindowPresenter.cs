@@ -1,11 +1,5 @@
 ﻿using Elevator.Model;
-using Elevator.View;
 using Ninject;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Elevator.Presenter
 {
@@ -39,7 +33,7 @@ namespace Elevator.Presenter
             _view.PassengersInfoShown += PassengersInfoShown;
         }
 
-        void PassengersInfoShown()
+        private void PassengersInfoShown()
         {
             if (_pasInfo == null)
             {
@@ -54,22 +48,22 @@ namespace Elevator.Presenter
             }      
         }
 
-        public void OverWeightActivated()
+        private void OverWeightActivated()
         {
             _view.ActivateOverWeight();
         }
 
-        public void OverWeightDeactivated()
+        private void OverWeightDeactivated()
         {
             _view.DeactivateOverWeight();
         }
 
-        public void ElevatorMadeIddleRide()
+        private void ElevatorMadeIddleRide()
         {
             _view.IncreaseIddleRides();
         }
 
-        public void ElevatorMadeRide()
+        private void ElevatorMadeRide()
         {
             _view.IncreaseRides();
         }
@@ -131,6 +125,11 @@ namespace Elevator.Presenter
 
         private void SetUp()
         {
+            _service.TimerStop();
+            if (_pasInfo != null)
+            {
+                _pasInfo.Close();
+            }
             _kernel.Get<SetUpPresenter>().Run();
             _view.Close();
         }

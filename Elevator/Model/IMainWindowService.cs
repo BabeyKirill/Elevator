@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Elevator.Model
 {
     interface IMainWindowService
@@ -12,9 +9,7 @@ namespace Elevator.Model
         int NumberOfFloors { get; set; }
         Elevator Elevator { get; set; }
         List<Passenger> Passengers { get; set; }
-        void TimerStart();
-        void TimerStop();
-        void AddAPassenger(int NumberOfTheFloor);
+
         event Action<int> OuterActiveFloorButtonActivated;
         event Action<int> ElevatorMoved;
         event Action<int> PassengerEnterElevator;
@@ -28,5 +23,9 @@ namespace Elevator.Model
         event Action OverWeightActivated;
         event Action OverWeightDeactivated;
         event Action<List<Passenger>> PassengersInfoUpdated;
+
+        void TimerStart();
+        void TimerStop();
+        void AddAPassenger(int NumberOfTheFloor);  
     }
 }

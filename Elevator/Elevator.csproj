@@ -54,7 +54,6 @@
   <ItemGroup>
     <Compile Include="Model\Elevator.cs" />
     <Compile Include="Model\IMainWindowService.cs" />
-    <Compile Include="Model\ITimer.cs" />
     <Compile Include="Model\MainWindowService.cs" />
     <Compile Include="Model\Passenger.cs" />
     <Compile Include="Presenter\IMainWindowView.cs" />

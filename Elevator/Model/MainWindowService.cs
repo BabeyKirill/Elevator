@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Elevator.Model
@@ -17,6 +16,20 @@ namespace Elevator.Model
         public Elevator Elevator { get; set; }
         public List<Passenger> Passengers { get; set; }
         private bool OverWeight = false;
+
+        public event Action<int> OuterActiveFloorButtonActivated;
+        public event Action<int> InnerActiveFloorButtonActivated;
+        public event Action<int> ElevatorMoved;
+        public event Action ElevatorMadeRide;
+        public event Action ElevatorMadeIddleRide;
+        public event Action<int> TotalMovedMassIncreased;
+        public event Action OverWeightActivated;
+        public event Action<int> PassengerEnterElevator;
+        public event Action<int> PassengerOutFromElevator;
+        public event Action<int> PassengerDisappeared;
+        public event Action<double> TimeUpdated;
+        public event Action OverWeightDeactivated;
+        public event Action<List<Passenger>> PassengersInfoUpdated;
 
         public MainWindowService()
         {
@@ -35,20 +48,6 @@ namespace Elevator.Model
                 this.Elevator = new Elevator(_numberOfFloors);
             }
         }
-
-        public event Action<int> OuterActiveFloorButtonActivated;
-        public event Action<int> InnerActiveFloorButtonActivated;
-        public event Action<int> ElevatorMoved;
-        public event Action ElevatorMadeRide;
-        public event Action ElevatorMadeIddleRide;
-        public event Action<int> TotalMovedMassIncreased;
-        public event Action OverWeightActivated;
-        public event Action<int> PassengerEnterElevator;
-        public event Action<int> PassengerOutFromElevator;
-        public event Action<int> PassengerDisappeared;
-        public event Action<double> TimeUpdated;
-        public event Action OverWeightDeactivated;
-        public event Action<List<Passenger>> PassengersInfoUpdated;
 
         public void TimerStart()
         {
@@ -69,9 +68,10 @@ namespace Elevator.Model
             }
             this.Elevator.CurrentFloor = 1;
             this.Elevator.MoveDirection = ElevatorMoveDirection.Undefined;
+            PassengersInfoUpdated?.Invoke(this.Passengers);
         }
 
-        public void TimerTick(object sender, EventArgs e)
+        private void TimerTick(object sender, EventArgs e)
         {
             time = time + 1;
             TimeUpdated?.Invoke(time);
@@ -116,12 +116,12 @@ namespace Elevator.Model
 
                 foreach(Passenger pas in Passengers)
                 {
-                    PassengersDoAction(pas);                  
+                    PassengerDoAction(pas);                  
                 }
             }
         }
 
-        public void PassengersDoAction(Passenger passenger)
+        private void PassengerDoAction(Passenger passenger)
         {
             if (passenger.Status == PassengerStatus.WaitingForElevator && Elevator.CurrentFloor == passenger.CurrentFloor)
             {
@@ -158,7 +158,7 @@ namespace Elevator.Model
             }
         }
 
-        public void ElevatorDoAction()
+        private void ElevatorDoAction()
         {
             if (!Elevator.InnerActiveFloorButtons.Contains(true) && Elevator.OuterActiveFloorButtons.Contains(true))
             {
